@@ -1,0 +1,14 @@
+1. Fix absolute position of input field and drop down X
+2. Make a script that will input the data from the previous to present
+2.1. Give the search field a function
+    - If kapampangan word is inputted, return the definition of input
+    - If english word is inputted, return the definitions wherein the english word is present
+3. Make a view for dictionary using table
+4. Apply Read feature
+5.  ""   Update feature
+6.  ""   Delete feature
+7.  ""   Add feature
+7.1. Search on how to store an image using google drive
+8. Make a toaster for deletion(for confirmation)
+9. Make a MVC login with auth
+10. Analytics view for admin only, display ex. Most search word etc.

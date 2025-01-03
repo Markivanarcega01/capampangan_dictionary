@@ -9,7 +9,8 @@ class HomeController extends Controller
     //
 
     public function index(Request $request){
-        return view('welcome');
+        $isAdmin = true;
+        return view('home')->with(compact("isAdmin"));
     }
 
     public function search(Request $request){
