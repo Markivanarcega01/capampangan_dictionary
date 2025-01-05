@@ -9,3 +9,4 @@ Route::get('/', [HomeController::class, 'index']);
 Route::post('/', [HomeController::class, 'search']);
 
 Route::get('/dictionary', [DictionaryController::class, 'index']);
+Route::post('/dictionary', [DictionaryController::class, 'store']);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dictionary;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -14,9 +15,10 @@ class HomeController extends Controller
     }
 
     public function search(Request $request){
-        $inputData = $request->all();
+        $searchword = $request->search;
+        $output =  Dictionary::where('word', $searchword)->get();
         return response()->json([
-            'data' => $inputData
+            'data' => $output
         ],200)  ;
     }
 }
