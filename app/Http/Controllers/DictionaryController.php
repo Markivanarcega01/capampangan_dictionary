@@ -10,13 +10,15 @@ class DictionaryController extends Controller
 {
     //
     public function index(Request $request){
-        return view('dictionary');
+        $isAdmin = true;
+        $dictionary = Dictionary::paginate(20);
+        return view('dictionary')->with(compact("isAdmin"))->with(compact("dictionary"));
     }
 
     public function store(Request $request){
         $dictionary = new Dictionary();
         $dictionary->word = "C";
-        $dictionary->pronounciation = "A";
+        $dictionary->pronunciation = "A";
         $dictionary->part_of_speech = "Noun";
         $dictionary->origin = "Langkiwa";
         $dictionary->synonyms = "A";

@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('dictionary_definition', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->foreignId('dictionary_key_id');
             $table->string('definition');
+            $table->timestamps();
         });
     }
 

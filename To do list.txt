@@ -1,12 +1,12 @@
 1. Fix absolute position of input field and drop down X
-2. Make a script that will input the data from the previous to present
+2. Make a script that will input the data from the previous to present X
 2.1. Give the search field a function
-    - If kapampangan word is inputted, return the definition of input
-    - If english word is inputted, return the definitions wherein the english word is present
-3. Make a view for dictionary using table
+    - If kapampangan word is inputted, return the definition of input X
+    - If english word is inputted, return the definitions wherein the english word is present X
+3. Make a view for dictionary using table with pagination and front end pagination
 4. Apply Read feature
 5.  ""   Update feature
-6.  ""   Delete feature
+6.  ""   Delete feature:
 7.  ""   Add feature
 7.1. Search on how to store an image using google drive
 8. Make a toaster for deletion(for confirmation)
