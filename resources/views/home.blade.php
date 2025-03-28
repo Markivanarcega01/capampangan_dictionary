@@ -1,7 +1,7 @@
 @extends('mainlayout')
 @section('content')
-    <div class="shared-bg h-screen w-auto">
-        <div class="flex flex-col items-center mt-24">
+    <div class="shared-bg md:h-screen">
+        <div class="flex flex-col items-center my-52">
             <strong class="text-3xl mb-20 md:text-6xl md:mb-32 text-center">CAPAMPÁNGAN DICTIONARY</strong>
             <div class="text-center text-base md:text-lg font-serif mb-5">
                 <p>Ring Cabaldugan da ring catayá na ning Amánung Sísuan quing English</p>
@@ -13,16 +13,17 @@
                     <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/>
                 </svg>
             </button> --}}
-            <div class="flex flex-row w-1/2 items-center">
-                <input type="search" id="search" class="block w-full h-10 p-4 text-sm rounded text-center" placeholder="Type here to search" autocomplete="off"/>
-                <button class="searchButton p-2">
+            <div class="flex flex-row md:w-1/2 items-center w-11/12 relative">
+                <input type="text" id="search" class="block w-full h-10 p-4 text-sm rounded text-center" placeholder="Type here to search" autocomplete="off"/>
+                <button class="searchButton p-2 absolute end-2">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-4 h-4 text-gray-500"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
                         <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/>
                     </svg>
                 </button>
+                <div class="dropdown-menu w-full text-left absolute top-10 bg-white rounded" id="dropdown-menu">
+                </div>
             </div>
-            <div class="dropdown-menu w-1/2 text-left" id="dropdown-menu">
-            </div>
+
         </div>
     </div>
     <div class="bg-white font-bold text-center py-10 text-lg" id="alphabet">
@@ -37,7 +38,7 @@
         @endforeach
     </div>
     <div class="bg-slate-100 w-2/3 h-fit flex-col self-center gap-2 p-2 text-lg hidden" id="results"></div>
-    <div class="mt-2 w-full bg-green-200" id="paginate"></div>
+    <div class="mt-2 w-2/3 self-center text-right" id="paginate"></div>
 
     <footer class="font-sans text-right">
         Capampángan Dictionary © 2018
@@ -54,7 +55,9 @@
 
     function updateActiveItem(items) {
         items.each((index, item) => {
-            item.classList.toggle('bg-white', index === currentIndex);
+            console.log(item)
+            item.classList.toggle('bg-blue-500', index === currentIndex);
+            item.classList.toggle('text-white', index === currentIndex);
         });
     }
 
@@ -129,7 +132,7 @@
                 for(let i =0; i<response.data.data.length; i++){
                     let divChild = document.createElement("DIV")
                     divChild.style.cssText = `
-                        width: 95%;
+                        width: 100%;
                         padding-left: 6px;
                         border-radius: 2px;
                     `
@@ -242,7 +245,55 @@
         $(valueOfElement).on("click", function () {
             let alphabetValue = $(".alphabet")[indexInArray]
 
-            function fetchResults(){
+            // function fetchResults(){
+            //     $.ajax({
+            //         type: "POST",
+            //         url: `/filter?page=${pageNumber}`,
+            //         data: {
+            //             _token: '{{csrf_token()}}',
+            //             search: $(alphabetValue).val(),
+            //             action: 'button',
+            //         },
+            //         success: function (response) {
+            //             paginate.empty();
+            //             console.log(response)
+            //             divResults.empty()
+
+            //             let countOfResults = document.createElement('div')
+            //             countOfResults.innerHTML = `Found <b>${response.data.total}</b> results`
+            //             divResults.append(countOfResults)
+
+            //             for(let i = 0; i<response.data.data.length; i++){
+            //                 displaySearchResult(response.data.data[i])
+            //             }
+
+            //             // Create pagination buttons dynamically
+            //             if (response.data.last_page > 1) {
+
+            //                 for (let i = 1; i <= response.data.last_page; i++) {
+            //                     let pager = document.createElement('button');
+            //                     pager.style.cssText = `padding: 10px; font-weight: bold; margin: 5px;`;
+            //                     pager.innerText = i;
+            //                     pager.onclick = function () {
+            //                         pageNumber = i; // Update global pageNumber
+            //                         fetchResults(pageNumber); // Fetch new results
+            //                     };
+            //                     paginate.append(pager);
+            //                 }
+            //             }
+
+            //             const targetElement = document.getElementById('alphabet');
+            //             targetElement.scrollIntoView({
+            //                 behavior: 'smooth',
+            //                 block: 'start'
+            //             });
+            //         },
+            //         error: function (error) {
+            //             console.log(error)
+            //         }
+            //     });
+            // }
+            function fetchResults(pageNumber = 1) {
                 $.ajax({
                     type: "POST",
                     url: `/filter?page=${pageNumber}`,
@@ -253,30 +304,57 @@
                     },
                     success: function (response) {
                         paginate.empty();
-                        console.log(response)
-                        divResults.empty()
+                        console.log(response);
+                        divResults.empty();
 
-                        let countOfResults = document.createElement('div')
-                        countOfResults.innerHTML = `Found <b>${response.data.total}</b> results`
-                        divResults.append(countOfResults)
+                        let countOfResults = document.createElement('div');
+                        countOfResults.innerHTML = `Found <b>${response.data.total}</b> results`;
+                        divResults.append(countOfResults);
 
-                        for(let i = 0; i<response.data.data.length; i++){
-                            displaySearchResult(response.data.data[i])
+                        for (let i = 0; i < response.data.data.length; i++) {
+                            displaySearchResult(response.data.data[i]);
                         }
 
                         // Create pagination buttons dynamically
-                        if (response.data.last_page > 1) {
+                        let lastPage = response.data.last_page;
+                        let maxButtons = 10; // Show 10 buttons at a time
+                        let startPage = Math.floor((pageNumber - 1) / maxButtons) * maxButtons + 1;
+                        let endPage = Math.min(startPage + maxButtons - 1, lastPage);
 
-                            for (let i = 1; i <= response.data.last_page; i++) {
-                                let pager = document.createElement('button');
-                                pager.style.cssText = `padding: 10px; font-weight: bold; margin: 5px;`;
-                                pager.innerText = i;
-                                pager.onclick = function () {
-                                    pageNumber = i; // Update global pageNumber
-                                    fetchResults(pageNumber); // Fetch new results
-                                };
-                                paginate.append(pager);
+                        // Previous Button
+                        if (startPage > 1) {
+                            let prevBtn = document.createElement('button');
+                            prevBtn.style.cssText = `padding: 8px 16px; font-weight: normal;`;
+                            prevBtn.innerText = "Previous";
+                            prevBtn.onclick = function () {
+                                fetchResults(startPage - 1);
+                            };
+                            paginate.append(prevBtn);
+                        }
+
+                        for (let i = startPage; i <= endPage; i++) {
+                            let pager = document.createElement('button');
+                            pager.style.cssText = `padding: 8px 16px; font-weight: normal;`;
+                            pager.innerText = i;
+                            pager.onclick = function () {
+                                fetchResults(i);
+                            };
+                            if (i === pageNumber) {
+                                pager.style.backgroundColor = "#007bff";
+                                pager.style.color = "white";
                             }
+                            paginate.append(pager);
+                        }
+
+                        // Next Button
+                        if (endPage < lastPage) {
+                            let nextBtn = document.createElement('button');
+                            nextBtn.style.cssText = `padding: 8px 16px; font-weight: normal;`;
+                            nextBtn.innerText = "Next";
+                            nextBtn.onclick = function () {
+                                fetchResults(endPage + 1);
+                            };
+                            paginate.append(nextBtn);
                         }
 
                         const targetElement = document.getElementById('alphabet');
@@ -286,11 +364,10 @@
                         });
                     },
                     error: function (error) {
-                        console.log(error)
+                        console.log(error);
                     }
                 });
             }
-
             fetchResults()
         })
     });
