@@ -23,7 +23,6 @@
                 <div class="dropdown-menu w-full text-left absolute top-10 bg-white rounded" id="dropdown-menu">
                 </div>
             </div>
-            <p>Update </p>
         </div>
     </div>
     <div class="bg-white font-bold text-center py-10 text-lg" id="alphabet">
