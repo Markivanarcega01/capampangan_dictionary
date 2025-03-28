@@ -223,17 +223,49 @@
     $(".searchButton").on("click", function () {
         let searchValue = $("#search").val()
         if(searchValue == "") return
+        // $.ajax({
+        //     type: "POST",
+        //     url: "/search",
+        //     data: {
+        //         _token: '{{csrf_token()}}',
+        //         search: searchValue,
+        //     },
+        //     success: function (response) {
+        //         console.log(response)
+        //     },
+        //     error: function (error) {
+        //         console.log(error)
+        //     }
+        // })let searchValue = $('#search').val()
         $.ajax({
-            type: "POST",
-            url: "/search",
-            data: {
+            type:"POST",
+            url:"/search",
+            data:{
                 _token: '{{csrf_token()}}',
                 search: searchValue,
             },
-            success: function (response) {
-                console.log(response)
+            success: function(response){
+                divResults.empty()
+                console.log("search",response)
+
+                let countOfResults = document.createElement('div')
+                countOfResults.innerHTML = `Found <b>${response.data.total}</b> results`
+                divResults.append(countOfResults)
+
+                //Provides the value to be displayed in the #results div
+                for(let i = 0; i<response.data.data.length; i++){
+                    displaySearchResult(response.data.data[i])
+                }
+                //paginate.innerText = `${response.data}`
+
+
+                const targetElement = document.getElementById('alphabet');
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
             },
-            error: function (error) {
+            error: function(error){
                 console.log(error)
             }
         });
